@@ -5,6 +5,7 @@ use std::{
 };
 
 mod solution_1;
+mod solution_2;
 
 pub struct Game {
     pub id: u32,
@@ -84,4 +85,20 @@ fn main() {
             eprintln!("Failed to read the file: {:?}", e);
         }
     };
+
+    let file_path = PathBuf::from("inputs/question-2.txt");
+    match File::open(file_path) {
+        Ok(data) => {
+            let mut games = vec![];
+            for line in BufReader::new(data).lines().filter_map(|line| line.ok()) {
+                games.push(Game::from(line));
+            }
+
+            let result = solution_2::solve(games);
+            println!("The solution for the problem-2 is: {}", result);
+        }
+        Err(e) => {
+            eprintln!("Failed to read the file: {:?}", e);
+        }
+    }
 }
